@@ -1,0 +1,29 @@
+﻿@page
+@using System.Security.Claims
+@{
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+@if (User.Identity.IsAuthenticated)
+{
+
+    ClaimsPrincipal user = User;
+    var claimId = user.Claims.FirstOrDefault(x => x.Type == "Id");
+    var claimEmail = user.Claims.FirstOrDefault(x => x.Type == "Email");
+    var claimDisplayName = user.Claims.FirstOrDefault(x => x.Type == "DisplayName");
+
+    string userId = claimId != null ? claimId.Value : string.Empty; ;
+    string userEmail = claimEmail != null ? claimEmail.Value : string.Empty; ;
+    string userDisplayName = claimDisplayName != null ? claimDisplayName.Value : string.Empty; ;
+
+    <h6> Welcome <b style="color: red; font-size: 22px;">@User.Identity.Name</b></h6>
+    <ul>
+        <li>Id : @userId</li>
+        <li>Email : @userEmail</li>
+        <li>Display name : @userDisplayName</li>
+    </ul>
+    <p>
+        <a href="/employee/logout" style="text-decoration: underline;">Logout</a>
+    </p>
+}
+
